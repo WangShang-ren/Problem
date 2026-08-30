@@ -1,0 +1,35 @@
+1. 环境准备阶段
+命令 1
+mamba activate qibotn
+（无输出，成功激活 qibotn 环境）
+命令 2
+cd qibotn
+（无输出，成功进入 qibotn 目录）
+命令 3
+cd try
+（无输出，成功进入 try 目录）
+2. QFT 仿真阶段
+命令 4
+python QFT.py
+QFT 仿真完成! 态向量维度: 16
+命令 5
+python QFT.py
+[Qibo 0.3.4|INFO|2026-08-30 13:53:44]: Using qibotn (QuimbBackend) backend on /CPU:0 [0.5+0.j 0. +0.j 0. +0.j 0. +0.j 0.5+0.j 0. +0.j 0. +0.j 0. +0.j 0.5+0.j 0. +0.j 0. +0.j 0. +0.j 0.5+0.j 0. +0.j 0. +0.j 0. +0.j]
+3. 性能基准测试阶段
+命令 6
+python benchmark.py
+Starting Benchmark…
+Testing N=8… [Qibo 0.3.4|INFO|2026-08-30 14:00:49]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:49]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:49]: Using numpy backend on /CPU:0 [numpy] N=8: Avg Time = 0.0127 s [Qibo 0.3.4|INFO|2026-08-30 14:00:50]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=8: Avg Time = 1.6354 s
+Testing N=10… [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [numpy] N=10: Avg Time = 0.0004 s [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=10: Avg Time = 0.0064 s
+Testing N=12… [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [numpy] N=12: Avg Time = 0.0018 s [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=12: Avg Time = 0.0080 s
+Testing N=14… [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [numpy] N=14: Avg Time = 0.0024 s [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=14: Avg Time = 0.0092 s
+Testing N=16… [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [numpy] N=16: Avg Time = 0.0292 s [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=16: Avg Time = 0.0097 s
+Testing N=18… [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [numpy] N=18: Avg Time = 0.1441 s [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=18: Avg Time = 0.0162 s
+Testing N=20… [Qibo 0.3.4|INFO|2026-08-30 14:00:55]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:56]: Using numpy backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:56]: Using numpy backend on /CPU:0 [numpy] N=20: Avg Time = 0.2542 s [Qibo 0.3.4|INFO|2026-08-30 14:00:56]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:56]: Using qibotn (QuimbBackend) backend on /CPU:0 [Qibo 0.3.4|INFO|2026-08-30 14:00:56]: Using qibotn (QuimbBackend) backend on /CPU:0 [qibotn-quimb] N=20: Avg Time = 0.0444 s
+================================================== Benchmark Summary: ————————————————– Qubits | NumPy (s) | Quimb (s) | Speedup ————————————————– 8 | 0.0127 | 1.6354 | 0.01x 10 | 0.0004 | 0.0064 | 0.07x 12 | 0.0018 | 0.0080 | 0.23x 14 | 0.0024 | 0.0092 | 0.26x 16 | 0.0292 | 0.0097 | 2.99x 18 | 0.1441 | 0.0162 | 8.88x 20 | 0.2542 | 0.0444 | 5.73x
+4. 线程调优阶段
+命令 7
+python thread_tuning.py
+Starting System-Level Thread Tuning…
+Threads | Time (s) | Status
+1 | 5.2070 | Success 2 | 2.0417 | Success 4 | 1.9583 | Success 8 | 2.0266 | Success 16 | 2.0745 | Success
