@@ -19,6 +19,7 @@ Baseline 的运行命令为 python benchmark.py（不限制线程的默认运行
 
 在 8 量子比特规模下，NumPy 耗时 0.0127 秒，Quimb 耗时 1.6354 秒，加速比为 0.01x。在 10 量子比特规模下，NumPy 耗时 0.0004 秒，Quimb 耗时 0.0064 秒，加速比为 0.07x。在 12 量子比特规模下，NumPy 耗时 0.0018 秒，Quimb 耗时 0.0080 秒，加速比为 0.23x。在 14 量子比特规模下，NumPy 耗时 
 0.0024 秒，Quimb 耗时 0.0092 秒，加速比为 0.26x。
+
 在 16 量子比特规模下，NumPy 耗时 0.0292 秒，Quimb 耗时 0.0097 秒，加速比为 2.99x。在 18 量子比特规模下，NumPy 耗时 0.1441 秒，Quimb 耗时 0.0162 秒，加速比为 8.88x。在 20 量子比特规模下，NumPy 耗时 0.2542 秒，Quimb 耗时 0.0444 秒，加速比为 5.73x。
 
 性能分析
@@ -49,8 +50,11 @@ Baseline 的运行命令为 python benchmark.py（不限制线程的默认运行
 在物理意义验证方面，QFT 电路将初始态 |00…0> 转化为均匀叠加态，各基态概率幅模长平方均为 1/2^N，符合量子力学理论预期。
 
 遇到的问题和解决方法
+
 问题 1 是调用 qibo.gates.ZZ 时报错 module ‘qibo.gates’ has no attribute ‘ZZ’。解决方法是确认 Qibo 0.3.4 版本中不存在 ZZ 门，改用 CZ (受控 Z 门) + RZ (相位旋转) + H (Hadamard) 的组合来构建局部纠缠电路，这在 MPS 模式下同样能有效展示调优效果。
+
 问题 2 是尝试开启 MPS 模式时，报错 tensor_split() got an unexpected keyword argument ‘max_bond_dimension’。解决方法是确认当前 qibotn 0.3.4 版本的 API 不支持通过 runcard 字典传递 MPS 截断参数（如 max_bond_dimension、qr_method 等）。因此果断放弃该路径，将调优重心转向系统级的 CPU 线程与 BLAS 并发控制，这同样是超算竞赛的核心考点。
+
 问题 3 是多线程测试时，环境变量未生效，性能没有变化。解决方法是确认 Python 进程启动后无法修改自身的 OMP_NUM_THREADS，因此改用 subprocess.run 启动独立子进程，并在 env 参数中注入环境变量，确保了每次测试的隔离性与准确性。
 
 项目复现步骤
