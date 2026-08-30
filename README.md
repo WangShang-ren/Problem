@@ -64,86 +64,15 @@ Baseline 的运行命令为 python benchmark.py（不限制线程的默认运行
 首先激活 Conda 环境，执行命令 conda activate qibotn。接着验证环境，执行命令 python QFT.py。结果成功运行 QFT 电路，输出态向量为 [0.5+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.5+0.j, …]，验证了 qibotn (QuimbBackend) 后端在 /CPU:0 上正常工作。日志输出如下： [Qibo 0.3.4|INFO|2026-08-30 13:53:44]: Using qibotn (QuimbBackend) backend on /CPU:0 [0.5+0.j 0. +0.j 0. +0.j 0. +0.j 0.5+0.j 0. +0.j 0. +0.j 0. +0.j 0.5+0.j 0. +0.j 0. +0.j 0. +0.j 0.5+0.j 0. +0.j 0. +0.j 0. +0.j]
 
 二、基准测试阶段
-创建基准测试脚本 benchmark.py，代码如下：
-import time
-import qibo
-from qibo import Circuit, gates
-import numpy as np
 
-def create_circuit(n_qubits):
-    c = Circuit(n_qubits)
-    for i in range(n_qubits):
-        c.add(gates.H(i))
-    for i in range(0, n_qubits - 1, 2):
-        c.add(gates.CNOT(i, i+1))
-    return c
+运行基准测试，执行命令 python benchmark.py。
 
-def benchmark_backend(backend_name, n_qubits, trials=3):
-    times = []
-    for _ in range(trials):
-        circuit = create_circuit(n_qubits)
-        if backend_name == "qibotn-quimb":
-            computation_settings = {
-                "MPI_enabled": False,
-                "MPS_enabled": False,
-                "NCCL_enabled": False,
-                "expectation_enabled": False,
-            }
-            qibo.set_backend(backend="qibotn", platform="qutensornet", runcard=computation_settings)
-        else:
-            qibo.set_backend(backend=backend_name)
-        start_time = time.time()
-        result = circuit()
-        end_time = time.time()
-        times.append(end_time - start_time)
-    return np.mean(times)
-
-if __name__ == "__main__":
-    qubit_counts = [8, 10, 12, 14, 16, 18, 20]
-    # ... 运行并打印对比表格
-运行基准测试，执行命令 python benchmark.py。结果成功完成 N=8 到 N=20 的完整基准测试。关键结果为：N=20 时，NumPy 耗时 0.2542s，Quimb 耗时 0.0444s，加速比 5.73x。在 N=16 处出现性能交叉点（Crossover Point），Quimb 首次超越 NumPy。
+结果成功完成 N=8 到 N=20 的完整基准测试。关键结果为：N=20 时，NumPy 耗时 0.2542s，Quimb 耗时 0.0444s，加速比 5.73x。在 N=16 处出现性能交叉点（Crossover Point），Quimb 首次超越 NumPy。
 
 三、线程调优阶段
-创建线程调优脚本 thread_tuning.py，代码如下：
-import time
-import os
-import subprocess
-import sys
 
-TEST_CODE = """
-import qibo
-from qibo import Circuit, gates
+创建线程调优脚本 thread_tuning.py，
 
-computation_settings = {
-    "MPI_enabled": False,
-    "MPS_enabled": False,
-    "NCCL_enabled": False,
-    "expectation_enabled": False,
-}
-
-qibo.set_backend(backend="qibotn", platform="qutensornet", runcard=computation_settings)
-
-c = Circuit(20)
-for i in range(20): c.add(gates.H(i))
-for i in range(0, 19, 2): c.add(gates.CNOT(i, i+1))
-for i in range(1, 19, 2): c.add(gates.CNOT(i, i+1))
-result = c()
-"""
-
-def run_benchmark(n_threads):
-    env = os.environ.copy()
-    env["OMP_NUM_THREADS"] = str(n_threads)
-    env["MKL_NUM_THREADS"] = str(n_threads)
-    env["NUMEXPR_NUM_THREADS"] = str(n_threads)
-    env["VECLIB_MAXIMUM_THREADS"] = str(n_threads)
-    env["OPENBLAS_NUM_THREADS"] = str(n_threads)
-    start = time.time()
-    result = subprocess.run(
-        [sys.executable, "-c", TEST_CODE],
-        env=env, capture_output=True, text=True
-    )
-    elapsed = time.time() - start
-    return elapsed, result.stderr if result.returncode != 0 else None
 运行线程调优，执行命令 python thread_tuning.py。结果显示 4 线程达到最优性能（1.9583s），16 线程因内存带宽瓶颈性能下降至 2.0745s。
 
 四、MPS 模式尝试（未成功）
